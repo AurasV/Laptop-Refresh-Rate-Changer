@@ -50,14 +50,18 @@ def main():
     # Get the current display settings
     if ctypes.windll.user32.EnumDisplaySettingsW(None, ENUM_CURRENT_SETTINGS, ctypes.byref(dm)):
         # Set the desired display frequency (e.g., 165)
-        dm.dmDisplayFrequency = 165
+        if dm.dmDisplayFrequency != 165:
+            dm.dmDisplayFrequency = 165
+        else:
+            dm.dmDisplayFrequency = 60
 
         # Change the display settings
         result = ctypes.windll.user32.ChangeDisplaySettingsExW(None, ctypes.byref(dm), None, CDS_UPDATEREGISTRY | CDS_GLOBAL, None)
 
         # Check the result
         if result == DISP_CHANGE_SUCCESSFUL:
-            print("Display settings changed successfully.")
+            # print("Display settings changed successfully.")
+            pass
         elif result == 4:
             print("The computer must be restarted for the graphics mode to work.")
         else:
